@@ -29,9 +29,9 @@ import (
 
 	tls "github.com/bogdanfinn/utls"
 
-	. "github.com/bogdanfinn/fhttp"
-	"github.com/bogdanfinn/fhttp/httptest"
-	"github.com/bogdanfinn/fhttp/httputil"
+	. "github.com/kangreon/fhttp"
+	"github.com/kangreon/fhttp/httptest"
+	"github.com/kangreon/fhttp/httputil"
 )
 
 type clientServerTest struct {
