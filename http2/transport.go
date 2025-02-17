@@ -81,6 +81,8 @@ type Transport struct {
 	// it will be used to set http.Response.TLS.
 	DialTLS func(network, addr string, cfg *tls.Config) (net.Conn, error)
 
+	OnTLSConnected func(client *ClientConn)
+
 	// DisableCompression, if true, prevents the Transport from
 	// requesting compression with an "Accept-Encoding: gzip"
 	// request header when the Request contains no existing
@@ -579,6 +581,11 @@ func (t *Transport) RoundTripOpt(req *http.Request, opt RoundTripOpt) (*http.Res
 
 			return nil, err
 		}
+
+		if t.OnTLSConnected != nil {
+			t.OnTLSConnected(cc)
+		}
+
 		reused := !atomic.CompareAndSwapUint32(&cc.reused, 0, 1)
 		traceGotConn(req, cc, reused)
 		res, gotErrAfterReqBodyWrite, err := cc.roundTrip(req)
